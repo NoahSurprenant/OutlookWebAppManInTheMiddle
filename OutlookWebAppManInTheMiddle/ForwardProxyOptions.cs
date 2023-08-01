@@ -7,8 +7,10 @@ namespace OutlookWebAppManInTheMiddle
         public const string ForwardProxy = "ForwardProxy";
 
         public string Host { get; set; }
-        public int Port { get; set; }
+        public string Port { get; set; }
 
-        public bool IsValid => string.IsNullOrWhiteSpace(Host) is false && Port is not 0;
+        public int PortInt => int.TryParse(Port, out var portInt) ? portInt : 0;
+
+        public bool IsValid => string.IsNullOrWhiteSpace(Host) is false && PortInt is not 0;
     }
 }

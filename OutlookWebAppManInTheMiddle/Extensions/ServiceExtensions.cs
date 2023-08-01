@@ -19,7 +19,7 @@ namespace OutlookWebAppManInTheMiddle.Extensions
                 if (isValid)
                 {
                     Log.Logger.Information("Using Proxy {Host}:{Port}", forwardProxyOptions!.Value.Host, forwardProxyOptions.Value.Port);
-                    var proxy = new WebProxy(forwardProxyOptions.Value.Host, forwardProxyOptions.Value.Port);
+                    var proxy = new WebProxy(forwardProxyOptions.Value.Host, forwardProxyOptions.Value.PortInt);
                     return new HttpClientHandler()
                     {
                         AllowAutoRedirect = false,

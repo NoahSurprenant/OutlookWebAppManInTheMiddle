@@ -55,7 +55,7 @@ namespace OutlookWebAppManInTheMiddle
                 var app = builder.Build();
 
                 var options = app.Services.GetService<IOptions<ForwardProxyOptions>>();
-                Log.Logger.Information("Proxy {Host}:{Port}", options?.Value.Host, options?.Value.Port);
+                Log.Logger.Information("Proxy Config {Host}:{Port}", options?.Value.Host, options?.Value.Port);
 
                 var factory = app.Services.GetRequiredService<IDbContextFactory<OutlookWebAppDbContext>>();
                 var context = factory.CreateDbContext();
