@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="HttpContextMapper" Version="0.0.4-beta" />
+    <PackageReference Include="HttpContextMapper.Html" Version="0.0.4-beta" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">

