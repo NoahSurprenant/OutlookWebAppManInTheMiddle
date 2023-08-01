@@ -1,0 +1,13 @@
+﻿version: '3'
+
+services:
+  outlookwebappmaninthemiddle:
+    image: noahsurprenant/outlookwebappmaninthemiddle:arm32v7
+    container_name: outlookwebappmaninthemiddle
+    restart: unless-stopped
+    ports:
+      - 3500:80
+      #- anotherPort:443
+    #environment:
+       #- ASPNETCORE_URLS=https://localhost:443,http://localhost:80
+       #- ASPNETCORE_URLS=https://localhost:80
