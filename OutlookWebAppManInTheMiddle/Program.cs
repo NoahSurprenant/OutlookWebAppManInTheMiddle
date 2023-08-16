@@ -1,9 +1,10 @@
 
 using HttpContextMapper;
+using HttpContextMapper.Extensions;
+using HttpContextMapper.Middlewares;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using OutlookWebAppManInTheMiddle.Extensions;
 using Serilog;
 
 namespace OutlookWebAppManInTheMiddle
@@ -31,8 +32,6 @@ namespace OutlookWebAppManInTheMiddle
                 builder.Services.AddEndpointsApiExplorer();
                 builder.Services.AddSwaggerGen();
 
-                //builder.Services.RegisterDefaultReverseProxy();
-                builder.Services.RegisterForwardProxyHttpClient();
                 builder.Services.AddScoped<IContextMapper, OutlookWebAppContextMapper>();
 
                 builder.Services.AddDbContextFactory<OutlookWebAppDbContext>(options =>
@@ -50,7 +49,7 @@ namespace OutlookWebAppManInTheMiddle
                     options.UseSqlite(connectionString);
                 });
 
-                builder.Services.Configure<ForwardProxyOptions>(builder.Configuration.GetSection(ForwardProxyOptions.ForwardProxy));
+                builder.ConfigureAndRegisterDefaultHttpClientWithForwardProxy();
 
                 var app = builder.Build();
 
